@@ -17,6 +17,7 @@ export interface ModuleOptions {
   }
   vuex: {
     namespace: string
+    registerModule: boolean
   }
   cookie:
     | {
@@ -69,7 +70,8 @@ export const moduleDefaults: ModuleOptions = {
   //  -- Vuex Store --
 
   vuex: {
-    namespace: 'auth'
+    namespace: 'auth',
+    registerModule: true
   },
 
   // -- Cookie Store --

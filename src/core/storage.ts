@@ -112,21 +112,27 @@ export class Storage {
     this._useVuex = this.options.vuex && !!this.ctx.store
 
     if (this._useVuex) {
-      const storeModule = {
-        namespaced: true,
-        state: () => this.options.initialState,
-        mutations: {
-          SET(state, payload) {
-            Vue.set(state, payload.key, payload.value)
+      if (this.options.vuex.registerModule) {
+        const storeModule = {
+          namespaced: true,
+          state: () => this.options.initialState,
+          mutations: {
+            SET(state, payload) {
+              Vue.set(state, payload.key, payload.value)
+            }
           }
         }
-      }
 
-      this.ctx.store.registerModule(this.options.vuex.namespace, storeModule, {
-        preserveState: Boolean(
-          this.ctx.store.state[this.options.vuex.namespace]
+        this.ctx.store.registerModule(
+          this.options.vuex.namespace,
+          storeModule,
+          {
+            preserveState: Boolean(
+              this.ctx.store.state[this.options.vuex.namespace]
+            )
+          }
         )
-      })
+      }
 
       this.state = this.ctx.store.state[this.options.vuex.namespace]
     } else {
